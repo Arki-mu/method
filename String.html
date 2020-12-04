@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log(String.prototype);
+      //1.charAt()
+      //charAt() 方法从一个字符串中返回指定的字符。
+      //str.charAt(index)
+      //index 一个介于0 和字符串长度减1之间的整数。 (0~length-1)。如果没有提供索引，charAt() 将使用0。
+      var str = "hello world!";
+      console.log(str.charAt(2)); //l
+
+      //2.charCodeAt()
+      //charCodeAt() 方法返回 0 到 65535 之间的整数，表示给定索引处的 UTF-16 代码单元
+      console.log(str.charCodeAt(2)); //108(l的UTF-16 字符)
+
+      //3.codePointAt()
+      //codePointAt() 方法返回 一个 Unicode 编码点值的非负整数。
+      console.log(str.codePointAt(2)); //108
+      //charAt()，charCodeAt()，codePointAt()用法总结 https://www.jianshu.com/p/91dad99d238c
+
+      //4.concat()
+      //concat() 方法将一个或多个字符串与原字符串连接合并，形成一个新的字符串并返回。
+      //str.concat(str2, [, ...strN])
+      //str2 [, ...strN] 需要连接到 str 的字符串。
+      console.log("hello".concat("aaaa")); //helloaaaa
+
+      //5.endsWith()
+      //endsWith()方法用来判断当前字符串是否是以另外一个给定的子字符串“结尾”的，根据判断结果返回 true 或 false。
+      console.log(str.endsWith("world")); //false
+      console.log(str.endsWith("world", 11)); //true
+      console.log(str.endsWith("world!")); //true
+
+      //6.includes()(区分大小写)
+      //includes() 方法用于判断一个字符串是否包含在另一个字符串中，根据情况返回 true 或 false。
+      //str.includes(searchString[, position])
+      /*searchString 要在此字符串中搜索的字符串。
+       *position 可选.从当前字符串的哪个索引位置开始搜寻子字符串，默认值为 0。
+       *返回值 如果当前字符串包含被搜寻的字符串，就返回 true；否则返回 false。
+       */
+      console.log("Blue Whale".includes("blue")); //false
+      console.log("blue Whale".includes("blue")); //true
+
+      //7.indexOf()  lastIndexOf()
+      //indexOf() 方法返回调用它的 String 对象中第一次出现的指定值的索引，
+      //从 fromIndex 处进行搜索。如果未找到该值，则返回 -1。
+      //str.indexOf(searchValue [, fromIndex])
+      var str = "hello world! world world";
+      console.log(str.indexOf("world")); //6
+      console.log(str.lastIndexOf("world")); //19
+
+      //8.localeCompare()
+      //localeCompare() 方法返回一个数字来指示一个参考字符串是否在排序顺序前面或之后或与给定字符串相同。
+      //string.localeCompare(targetString,locales,options);
+      /*targetString：对比字符串
+       *https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+       *（1）如果String对象按照字母顺序排在参数中的字符串之前，返回负数
+       *（2）如果String对象按照字符顺序排在参数中的字符串之后，返回正数
+       *（3）如果String对象等于参数中的字符串返回0
+       **/
+
+      //9.match()
+      // match() 方法检索返回一个字符串匹配正则表达式的结果。
+      var paragraph = "The quick brown fox jumps over the lazy dog. It barked.";
+      var reg = /[A-Z]/g;
+      var found = paragraph.match(reg);
+      console.log(found); //["T", "I"]
+
+      //10.matchAll()
+      //matchAll() 方法返回一个包含所有匹配正则表达式的结果及分组捕获组的迭代器。
+      //str.matchAll(regexp)
+      /*regexp
+       *正则表达式对象。如果所传参数不是一个正则表达式对象，则会隐式地使用 new RegExp(obj) 将其转换为一个 RegExp 。
+       *RegExp必须是设置了全局模式g的形式，否则会抛出异常TypeError。
+       */
+      var reg = /t(e)(st(\d?))/g;
+      var str = "test1test2";
+      console.log(str.match(reg)); //["test1", "test2"]
+      console.log(...str.matchAll(reg));
+      //(4) ["test1", "e", "st1", "1", index: 0, input: "test1test2", groups: undefined]
+      //(4) ["test2", "e", "st2", "2", index: 5, input: "test1test2", groups: undefined]
+
+      //11.normalize()
+      //normalize() 方法会按照指定的一种 Unicode 正规形式将当前字符串正规化。（如果该值不是字符串，则首先将其转换为一个字符串）。
+      console.log("\u01D1".normalize()); //Ǒ
+
+      //12.字符串补全padEnd() padStart()
+      //该方法会用一个字符串填充当前字符串（如果需要的话则重复填充），返回填充后达到指定长度的字符串。
+      //从当前字符串的末尾（右侧）开始填充。
+      /*
+       *str.padEnd(targetLength [, padString])
+       *targetLength 当前字符串需要填充到的目标长度。如果这个数值小于当前字符串的长度，则返回当前字符串本身。
+       *padString 可选 填充字符串。如果字符串太长，使填充后的字符串长度超过了目标长度，则只保留最左侧的部分，其他部分会被截断。此参数的缺省值为 " "（U+0020）。
+       *返回值在原字符串末尾填充指定的填充字符串直到目标长度所形成的新字符串。
+       **/
+      console.log(str.padEnd(20, "add")); //test1test2addaddadda
+      console.log(str.padEnd(20)); //'test1test2          '
+      //该方法用另一个字符串填充当前字符串(如果需要的话，会重复多次)，以便产生的字符串达到给定的长度。从当前字符串的左侧开始填充。
+      //str.padStart(targetLength [, padString])
+      console.log(str.padStart(20, "add")); //addaddaddatest1test2
+      console.log(str.padStart(20)); //'          test1test2'
+
+      //13.repeat()
+      //repeat() 构造并返回一个新字符串，该字符串包含被连接在一起的指定数量的字符串的副本。
+      /*
+       *str.repeat(count)
+       *count 介于 0 和 +Infinity 之间的整数。表示在新构造的字符串中重复了多少遍原字符串。
+       *返回值 包含指定字符串的指定数量副本的新字符串。
+       **/
+      //console.log(str.repeat(-1));//Uncaught RangeError: Invalid count valueat String.repeat (<anonymous>)
+      console.log(str.repeat(0)); //''
+      console.log(str.repeat(1)); //test1test2
+      console.log(str.repeat(2)); //test1test2test1test2
+
+      //14.replace() replaceAll()
+      //replace() 方法返回一个由替换值（replacement）替换部分或所有的模式（pattern）匹配项后的新字符串。
+      //模式可以是一个字符串或者一个正则表达式，替换值可以是一个字符串或者一个每次匹配都要调用的回调函数。
+      //如果pattern是字符串，则仅替换第一个匹配项。
+      /*str.replace(regexp|substr, newSubStr|function)
+       *regexp (pattern) 一个RegExp 对象或者其字面量。该正则所匹配的内容会被第二个参数的返回值替换掉。
+       *substr (pattern) 一个将被 newSubStr 替换的 字符串。其被视为一整个字符串，而不是一个正则表达式。仅第一个匹配项会被替换。
+       *newSubStr (replacement) 用于替换掉第一个参数在原字符串中的匹配部分的字符串。该字符串中可以内插一些特殊的变量名。参考下面的使用字符串作为参数。
+       *function (replacement) 一个用来创建新子字符串的函数，该函数的返回值将替换掉第一个参数匹配到的结果。参考下面的指定一个函数作为参数。
+       *返回值 一个部分或全部匹配由替代模式所取代的新的字符串。
+       **/
+      var reg = /apples/gi;
+      var str = "Apples are round, and apples are juicy.";
+      console.log(str.replace(reg, "oranges"));
+      //oranges are round, and oranges are juicy.
+
+      //const newStr = str.replaceAll(regexp|substr, newSubstr|function)   (使用正则时必须设置全局（'g'）标志)
+      //当 pattern 是字符串时，replace 只替换匹配到的第一个位置，replaceAll 会替换每一个匹配到的地方。
+      var value = "123-234-234-234";
+      var pattern = "-";
+      console.log(value.replace(pattern, "/")); //  123/234-234-234
+      console.log(value.replaceAll(pattern, "/")); //  123/234/234/234
+      //当 pattern 都是正则表达式时，没有区别。
+      var value = "123-234-234-234";
+      var reg = /-/g;
+      console.log(value.replace(reg, "/")); // 123/234/234/234
+      console.log(value.replaceAll(reg, "/")); // 123/234/234/234
+
+      //15.search()
+      //search() 方法执行正则表达式和 String 对象之间的一个搜索匹配。
+      //str.search(regexp)  | 如果匹配成功，则 search() 返回正则表达式在字符串中首次匹配项的索引;否则，返回 -1。
+      var str = "Welcome To Here!";
+      var reg = /[A-Z]/g;
+      var reg2 = /[!]/g;
+      console.log(str.search(reg)); // 0
+      console.log(str.search(reg2)); // 15
+
+      //16.slice()
+      //该方法提取某个字符串的一部分，并返回一个新的字符串，且不会改动原字符串。
+      //返回一个从原字符串中提取出来的新字符串
+      console.log(str.slice(5)); //me To Here!
+      console.log(str.slice(2, 5)); //lco  (不包含第五个)
+      console.log(str.slice(-2)); //e!
+      console.log(str.slice(-5, -2)); //Her
+
+      //17.split()
+      //该方法使用指定的分隔符字符串将一个String对象分割成子字符串数组，以一个指定的分割字串来决定每个拆分的位置。
+      var myString = "Hello World. How are you doing?";
+      var splits = myString.split(" ", 3);
+      console.log(splits); //["Hello", "World.", "How"]
+
+      //18.startsWith()
+      //该方法用来判断当前字符串是否以另外一个给定的子字符串开头，并根据判断结果返回 true 或 false。
+      var str = "To be, or not to be, that is the question.";
+      console.log(str.startsWith("To be")); // true
+      console.log(str.startsWith("not to be")); // false
+      console.log(str.startsWith("not to be", 10)); // true
+
+      //19.substr()从第某位截某长度  substring()截取从某位到某位 尽量使用substring()
+      //substr() 方法返回一个字符串中从指定位置开始到指定字符数的字符。
+      //substring() 方法返回一个字符串在开始索引到结束索引之间的一个子集, 或从开始索引直到字符串的末尾的一个子集。
+      /*
+       *str.substr(start[, length])
+       *start 开始提取字符的位置。如果为负值，则被看作 strLength + start，其中 strLength 为字符串的长度（例如，如果 start 为 -3，则被看作 strLength + (-3)）。
+       *length 可选。提取的字符数。
+       *
+       *str.substring(indexStart[, indexEnd])
+       *indexStart 需要截取的第一个字符的索引，该索引位置的字符作为返回的字符串的首字母。
+       *indexEnd 可选。一个 0 到字符串长度之间的整数，以该数字为索引的字符不包含在截取的字符串内。
+       */
+      console.log(str);
+      console.log(str.substr(10, 5)); //not t
+      console.log(str.substr(-8, 5)); //uesti
+      console.log(str);
+      console.log(str.substring(10, 5)); //, or
+      console.log(str.substring(-8, 5)); //To be
+
+      //20.toLocaleLowerCase() toLocaleUpperCase() toLowerCase() toUpperCase()
+      //toLocaleLowerCase()方法根据任何指定区域语言环境设置的大小写映射，返回调用字符串被转换为小写的格式。
+      //toLocaleUpperCase() 方法根据本地主机语言环境把字符串转换为大写格式，并返回转换后的字符串。
+      //toLowerCase() 会将调用该方法的字符串值转为小写形式，并返回。
+      //toUpperCase() 方法将调用该方法的字符串转为大写形式并返回（如果调用该方法的值不是字符串类型会被强制转换）。
+      console.log('ALPHABET'.toLocaleLowerCase());// alphabet
+      console.log('alphabet'.toLocaleUpperCase());//ALPHABET
+      console.log('ALPHABET'.toLowerCase());//alphabet
+      console.log('alphabet'.toUpperCase());//ALPHABET
+
+      //21.toString()转化为字符串
+
+      //22.trim()方法和trimStrat()和trimEnd()方法，trimRight()和trimLeft() 方法
+      /*trim() 方法会从一个字符串的两端删除空白字符。在这个上下文中的空白字符是所有的空白字符 (space, tab, no-break space 等) 以及所有行终止符字符（如 LF，CR等）。
+       *trimStrat()删除头部空格; trimEnd()删除尾部空格
+       *trimLeft()删除左侧空格; trimRight()删除右侧空格
+       */
+      console.log("         refsff              afdasda        ".trim());//'refsff              afdasda'
+
+      //----------已废弃-------------------
+      //1.anchor
+      //使用 anchor 方法能够以编程方式在一个文档中创建和展现一个锚链接。
+      var myString = "Table of Contents";
+      document.body.innerHTML = myString.anchor("contents_anchor");
+      //<a name="contents_anchor">Table of Contents</a>
+      //2.big()
+      //该方法用于把字符串显示为大号字体。
+      console.log(myString.big());
+      //<big>Table of Contents</big>
+      //3.blink()
+      //blink()方法创建使字符串闪烁的 <blink> HTML 元素。
+      console.log(myString.blink());
+      //<blink>Table of Contents</blink>
+      //4.bold()
+      //bold() 方法会创建 HTML 元素 “b”，并将字符串加粗展示。
+      console.log(myString.bold());
+      //<b>Table of Contents</b>
+      //5.fixed()
+      //fixed()方法创建了一个<tt>标签元素将字符串包裹起来，从而让这个字符串里面的内容具有固定间距。
+      console.log(myString.fixed());
+      //<tt>Table of Contents</tt>
+      //6.fontcolor()
+      console.log(myString.fontcolor("red"));
+      //<font color="red">Table of Contents</font>\
+      //7.fontsize()
+      //8.italics() 创建 HTML 元素 “i”
+      //9.link() 创建一个 HTML 元素 <a> ，用该字符串作为超链接的显示文本，参数作为指向另一个 URL 的超链接。
+      //10.small() 创建一个使字符串显示小号字体的 <small> 标签。
+      //11.strike() 创建<strike> HTML 元素，使字符串展示为被删除的文本。
+      //12.sub() 创建一个 <sub> HTML 元素，使字符串展示为下标。
+      //13.sup() 创建 一个<sup>HTML 元素，使字符串显示为上标。
+    </script>
+  </body>
+</html>
