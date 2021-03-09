@@ -65,6 +65,7 @@ class MyComponent extends React.Component{
 ##### ref
 
 1. ###### 字符串形式的ref（官方不推荐使用）
+
 ```react
 class MyComponent extends React.Component{
     showData=()=>{
@@ -76,7 +77,9 @@ class MyComponent extends React.Component{
    	}
 } 
 ```
+
 2. ###### 回调形式的ref
+
 ```react
 //如果 ref 回调函数是以内联函数的方式定义的，在更新过程中它会被执行两次，第一次传入参数 null，然后第二次会传入参数 DOM 元素。
 class MyComponent extends React.Component{
@@ -108,5 +111,121 @@ class MyComponent extends React.Component{
         return <div ref={this.myRef} onClick={this.showData}></div>
    	}
 }
+```
+
+-----
+
+##### 生命周期
+
+```react
+???=()=>{
+    //卸载组件
+    ReactDOM.unmountDomponentAtNode(document.getElementById("?"));
+}
+
+//组件挂载完毕（只调用一次|通常用于放置定时器）
+componentDidMount(){
+    //code...
+}
+
+//组件将要被卸载(卸载前|通常用于清除定时器)
+componentWillUnmount(){
+    //code...
+}
+
+//初始化渲染、状态更新之后
+render(){
+    return 
+}
+```
+
+1. ###### 生命周期(旧)
+
+    1. 初始化阶段：由ReactDOM.render()触发----初次渲染
+    	1. constructor()
+    	2. componentWillMount()
+    	3. render()
+    	4. componentDidMount()   **！！常用 ！！组件挂载完毕的钩子**
+    2. 更新阶段：由组件内部this.setState()或父组件重新render触发
+    	1. shouldComponentUpdate()
+    	2. componentWillUpdate()
+    	3. render() **！！必须使用 ！！初始化渲染、状态更新之后**
+    	4. componentDidUpdate()
+    3. 卸载组件：由ReactDOM.unmountComponentAtNode()触发
+    	1. componentWillUnmount() **！！常用 ！！组件将要卸载的钩子**
+
+```react
+ class MyComponent extends React.Component{
+     //构造器
+     constructor(props){
+         super(props);
+         //初始化状态
+         this.state={}
+     }
+     //组件将要挂载的钩子
+     componentWillMount(){
+         //code...
+     }
+     //组件挂载完毕的钩子
+     componentDidMount(){
+         //code...
+     }
+     //组件将要卸载的钩子
+     componentWillUnmount(){
+         //code...
+     }
+     //控制组件更新的"阀门"
+     shouldComponentUpdate(){
+         //code...
+         return true//or false
+     }
+     //this.forceUpdate()强制更新则不经过阀门直接更新
+     
+     //组件将要更新的钩子
+     componentWillUpdate(){
+         //code...
+     }
+     //组件更新完毕的钩子
+     componentDidUpdate(){
+         //code...
+     }
+     //初始化渲染、状态更新之后
+     render(){
+         return(
+         	<div>
+            	<child toChild="传给child的props的数据"/> 
+            </div>
+         )
+     }
+ }
+ class MyComponent extends React.Component{
+     //组件将要接收新的props的钩子（可接收props|render初次渲染时不会执行
+     componentWillReceiveProps(){
+         //code...
+     }
+     render(){
+         return
+     }
+ }
+```
+
+2. ###### 生命周期(新)
+
+   * componentWillMount()、componentWillUpdate()、componentWillReceiveProps()命名变更，开头必需加"UNSAFE_"前缀。（官方不建议使用，未来版本将会废弃）
+
+   * 添加了2个新的钩子
+
+     * getDerivedStateFromProps(props, state)
+
+     * getSnapshotBeforeUpdate()
+
+```react
+//从props得到派生状态（会导致代码冗余，所以了解即可
+static getDerivedStateFromProps(){//静态方法
+    //code...
+    return {}//必须返回状态对象或者null
+}
+
+
 ```
 
