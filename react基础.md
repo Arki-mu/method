@@ -187,6 +187,7 @@ render(){
      }
      //组件更新完毕的钩子
      componentDidUpdate(){
+         //------>可接收两个值，一个是更新前（先前）的props，一个是更新前（先前）的state
          //code...
      }
      //初始化渲染、状态更新之后
@@ -217,7 +218,7 @@ render(){
 
      * getDerivedStateFromProps(props, state)
 
-     * getSnapshotBeforeUpdate()
+     * getSnapshotBeforeUpdate()|在render和componentDidUpdate()之间
 
 ```react
 //从props得到派生状态（会导致代码冗余，所以了解即可
@@ -226,6 +227,44 @@ static getDerivedStateFromProps(){//静态方法
     return {}//必须返回状态对象或者null
 }
 
+getSnapshotBeforeUpdate(){
+    //code...
+    return //必须返回快照值或者null，componentDidUpdate(prevProps,prevState,snapshotValue)接收第三个参数【快照值】
+}
 
 ```
+
+-----
+
+##### 组件通信
+
+1. ###### 父传子
+
+   * 通过引入子组件的地方直接传递参数。
+
+     ===>`<App><Child toChild="toChild"/></App>`
+
+   * 子组件通过props来直接获取参数。     
+
+     ===>`this.props.toChild`
+
+2. ###### 子传父
+
+   * 在引入子组件的地方以函数形式传递给子组件。
+
+     ===>`<Child toChild={this.toChild}>`
+
+   * 在子组件中通过props获取该函数并附上参数。 
+
+     ===>`this.props.toChild(data)`
+
+   * 父组件在函数中可以直接获取到子组件传递过来的参数。
+
+     ===>构造函数内`toChild=(data)=>{console.log(data)}`
+
+3. ###### 兄弟传值
+
+   * 无法直接传值，必须通过父组件作为中转站
+
+-------
 
