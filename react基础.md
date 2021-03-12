@@ -212,7 +212,7 @@ render(){
 
 2. ###### 生命周期(新)
 
-   * componentWillMount()、componentWillUpdate()、componentWillReceiveProps()命名变更，开头必需加"UNSAFE_"前缀。（官方不建议使用，未来版本将会废弃）
+   * `componentWillMount()`、`componentWillUpdate()`、`componentWillReceiveProps()`命名变更，开头必需加"UNSAFE_"前缀。（官方不建议使用，未来版本将会废弃）
 
    * 添加了2个新的钩子
 
@@ -266,5 +266,49 @@ getSnapshotBeforeUpdate(){
 
    * 无法直接传值，必须通过父组件作为中转站
 
+     * 可使用插件PubSubJS	(`yarn add pubsub.js`)
+
+       * 传值`Pubsub.publish("类似于id",{})`
+
+         ![发布](assets/发布.png)
+
+       * 接收`PubSub.subscribe("类似于id",(msg,data)=>{console.log(data)})`
+       
+         ![接收](assets/接收.png)
+       
+
 -------
 
+##### react Ajax
+
+1. 解决跨域问题
+
+   * package.json内
+
+     ```json
+     {
+         "proxy":"网址"
+     }
+     ```
+
+   * src内创建setupProxy.js
+   
+     ```javascript
+     const proxy = require('http-proxy-middleware')
+     module.exports=function(app){
+         app.use(
+         	proxy('/api1',{
+                 target:"网址1",
+                 changeOrigin:true,//控制服务器收到的响应头中Host字段的值
+                 pathRewrite:{'^/api1':''}
+             }),
+             proxy('/api2',{
+                 target:"网址2",
+                 changeOrigin:true,
+                 pathRewrite:{'^/api2':''}
+             }),
+         )
+     }
+     ```
+   
+     
