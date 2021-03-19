@@ -292,7 +292,7 @@ getSnapshotBeforeUpdate(){
      ```
 
    * src内创建setupProxy.js
-   
+
      ```javascript
      const proxy = require('http-proxy-middleware')
      module.exports=function(app){
@@ -310,5 +310,88 @@ getSnapshotBeforeUpdate(){
          )
      }
      ```
-   
-     
+
+     * ###### 扩展---Fetch
+
+       若想代码正常运行，需在外面包一个async function========>search=async()=>{//code...}
+
+       ```react
+       //1.
+       fetch("url").then(
+       	res=>{
+               //联系服务器成功
+               return res.json()
+           }
+       ).then(
+       	res=>{
+               console.log(res)
+           }
+       ).catch(
+       	err={
+               console.log(err)
+           }
+       )
+       //2.
+       try{
+           const response=await fetch("url")
+           const data= await response.json()
+           console.log(data)
+       }catch(error){
+           console.log(error)
+       }
+       ```
+
+
+-----
+
+##### 路由
+
+###### react router
+
+<Route path="/demo" component={Demo}/>
+
+demo(路由组件)接收到的props：------有三个固定属性
+
+1. history
+   * 
+2. location
+3. match
+
+配置路由
+
+1. ***compnent*** （属性或者方法）：<Route path="/demo" component={Demo}/>
+2. ***render***（方法）：<Route path="/demo" render={()=><Demo count={count} />}/>
+3. ***children***（方法）：children是只要配置了该属性，其里面返回的函数都会渲染，无论路径是否匹配。它能接受所有的路由属性，若不匹配`match`会为`null`
+
+
+
+​       **NavLink标签**可以实现路由链接的高亮，通过activeClassName指定样式名，通过this.props.children可以获取标签体内容
+
+<NavLink activeClassName="默认active" className="样式名" to="/demo">
+
+​	标签内容
+
+<NavLink/>
+
+​       **Switch标签**，使<Route>在路径相同的情况下，只匹配第一个，这个可以避免重复匹配；
+
+```react
+<Switch>
+    <Route path="/demo" component={Demo}/>   //只匹配第一个
+    <Route path="/demo" component={Test}/>
+</Switch>
+```
+
+​       解决多级路径刷新页面样式丢失问题
+
+1. public/index.html中引入样式时不写 ./ 写 / 
+2. public/index.html中引入样式时不写 ./ 写 %PUBLIC_URL%（仅适用于react）
+3. 使用HashRouter
+
+​       精准匹配**exact**
+
+<Route exact path="/demo" component={Demo}/> 路径必须与要求的一致
+
+​		重定向**Redirect**
+
+<Redirect to="/home"/>页面打开后是/home
